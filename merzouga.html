@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merzouga Desert | Morocco Desert Adventures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
+            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
+            --text: #2C2416; --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
+            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+
+        .page-hero {
+            min-height: 55vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; margin-top: 70px;
+            background: linear-gradient(rgba(15,26,31,0.45), rgba(15,26,31,0.55)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><rect fill="%23E8D5B7" width="1200" height="500"/><path fill="%23DFC89D" d="M0 80 Q150 30 300 100 Q450 170 600 80 Q750 0 900 90 Q1050 180 1200 60 L1200 500 L0 500Z"/><path fill="%23C9A96E" d="M0 150 Q200 100 400 180 Q600 260 800 150 Q1000 40 1200 140 L1200 500 L0 500Z"/><path fill="%23B8935A" d="M0 250 Q300 180 600 280 Q900 380 1200 220 L1200 500 L0 500Z"/><circle cx="100" cy="60" r="30" fill="%23FFD700" opacity="0.3"/></svg>') center/cover;
+        }
+        .hero-content { padding: 40px 20px; }
+        .hero-content h1 { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 50px); font-weight: 900; color: white; margin-bottom: 14px; }
+        .hero-content p { font-size: 17px; color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto; }
+
+        .section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
+        .section-title { font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--deep-blue); text-align: center; margin-bottom: 24px; }
+        .section-text { color: var(--text-light); font-size: 15px; line-height: 1.8; margin-bottom: 40px; text-align: center; }
+
+        .tours-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .tour-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
+        .tour-card:hover { transform: translateY(-4px); }
+        .tour-header { background: var(--deep-blue); color: white; padding: 20px 24px; }
+        .tour-header h3 { font-family: var(--font-heading); font-size: 20px; margin-bottom: 4px; }
+        .tour-price { font-size: 28px; font-weight: 700; color: var(--gold); }
+        .tour-price span { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 400; }
+        .tour-body { padding: 24px; }
+        .tour-body ul { list-style: none; padding: 0; }
+        .tour-body li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+        .tour-body li:before { content: '✓'; color: var(--terracotta); font-weight: 700; }
+        .btn-tour { display: block; margin: 20px 24px 24px; padding: 14px; background: var(--terracotta); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; transition: all 0.3s; }
+        .btn-tour:hover { background: #a55f3d; }
+
+        .quote-box {
+            background: var(--deep-blue); color: white; border-radius: var(--radius);
+            padding: 40px; text-align: center; margin: 40px 0;
+        }
+        .quote-box blockquote { font-family: var(--font-heading); font-size: 24px; line-height: 1.5; font-style: italic; }
+        .quote-box cite { display: block; margin-top: 16px; font-size: 14px; color: var(--gold); font-style: normal; font-weight: 600; }
+
+        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="agafay.html">Agafay</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>🏜️ Merzouga Desert</h1>
+            <p>The mighty Sahara — where golden dunes stretch as far as the eye can see and the silence of the desert speaks louder than words</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">The Magic of Erg Chebbi</h2>
+        <p class="section-text">Merzouga is home to Erg Chebbi — Morocco's most spectacular sand dune
