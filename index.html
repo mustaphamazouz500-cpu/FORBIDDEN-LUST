@@ -3,398 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morocco Desert Adventures | Luxury Tours & Desert Experiences</title>
+    <title>Morocco Desert Adventures | Luxury Moroccan Tours</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #C9A96E;
-            --gold-light: #DFC89D;
-            --sand: #E8D5B7;
+            --gold: #D4AF37;
+            --gold-light: #E8D07A;
+            --gold-dark: #B8960F;
             --terracotta: #C4734F;
-            --deep-blue: #1B3A4B;
-            --dark: #0F1A1F;
-            --cream: #FBF7F0;
+            --terracotta-light: #D49573;
+            --deep-blue: #1A3650;
+            --midnight: #0F1D2D;
+            --cream: #FDF8F0;
+            --sand: #F5EDE0;
             --white: #FFFFFF;
-            --text: #2C2416;
-            --text-light: #6B5E4A;
-            --shadow: 0 8px 40px rgba(0,0,0,0.12);
-            --radius: 16px;
-            --font-heading: 'Playfair Display', Georgia, serif;
+            --text: #1A1A1A;
+            --text-light: #5C5C5C;
+            --radius: 20px;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
             --font-body: 'Inter', -apple-system, sans-serif;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
-            font-family: var(--font-body);
-            background: var(--cream);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-body); background: var(--cream); color: var(--text);
+            line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
+
+        /* ============ PRELOADER ============ */
+        .preloader {
+            position: fixed; inset: 0; z-index: 9999; background: var(--midnight);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-inner { text-align: center; }
+        .preloader-icon {
+            font-size: 60px; animation: float 2s ease-in-out infinite;
+            display: block; margin-bottom: 20px;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .preloader-line {
+            width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto; animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity: 0.3; width: 80px; } 50% { opacity: 1; width: 160px; } }
+        .preloader-text {
+            color: var(--gold); font-family: var(--font-display); font-size: 18px;
+            margin-top: 16px; letter-spacing: 4px; text-transform: uppercase;
+        }
+
+        /* ============ CUSTOM CURSOR ============ */
+        .cursor {
+            width: 24px; height: 24px; border: 1.5px solid var(--gold);
+            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998;
+            transition: transform 0.15s, width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%); mix-blend-mode: difference; display: none;
+        }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(212,175,55,0.15); }
+        @media (min-width: 1024px) { .cursor { display: block; } }
 
         /* ============ NAVIGATION ============ */
         .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            background: rgba(251,247,240,0.92);
-            backdrop-filter: blur(20px);
-            padding: 16px 0; transition: all 0.3s;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 0; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .navbar.scrolled { box-shadow: var(--shadow); padding: 10px 0; }
+        .navbar.scrolled {
+            background: rgba(253,248,240,0.95); backdrop-filter: blur(30px);
+            padding: 12px 0; box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+        }
         .nav-inner {
-            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
             display: flex; align-items: center; justify-content: space-between;
         }
         .nav-logo {
-            font-family: var(--font-heading);
-            font-size: 24px; font-weight: 900; color: var(--deep-blue);
-            text-decoration: none; letter-spacing: -0.5px;
+            font-family: var(--font-display); font-size: 26px; font-weight: 700;
+            color: var(--white); text-decoration: none; letter-spacing: 1px;
+            transition: color 0.5s; display: flex; align-items: center; gap: 10px;
         }
-        .nav-logo span { color: var(--terracotta); }
-        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .navbar.scrolled .nav-logo { color: var(--midnight); }
+        .nav-logo-icon {
+            width: 38px; height: 38px; border: 2px solid var(--gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
+        }
+        .nav-links { display: flex; gap: 36px; align-items: center; }
         .nav-links a {
-            color: var(--text); text-decoration: none; font-weight: 500;
-            font-size: 14px; transition: color 0.3s;
+            color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px;
+            font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+            transition: all 0.3s; position: relative; padding: 6px 0;
         }
-        .nav-links a:hover { color: var(--terracotta); }
-        .btn-book {
-            background: var(--terracotta); color: white !important;
-            padding: 12px 24px; border-radius: 8px; font-weight: 700 !important;
-            transition: all 0.3s !important;
+        .navbar.scrolled .nav-links a { color: var(--text); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+            background: var(--gold); transition: width 0.4s;
         }
-        .btn-book:hover {
-            background: #a55f3d; transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(196,115,79,0.3);
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold); }
+        .btn-nav {
+            padding: 12px 28px; background: var(--gold); color: var(--midnight) !important;
+            border-radius: 4px; font-weight: 600 !important; letter-spacing: 2px !important;
+            transition: all 0.4s !important; font-size: 11px !important;
         }
-        .mobile-toggle {
-            display: none; background: none; border: none;
-            font-size: 28px; cursor: pointer; color: var(--deep-blue);
-        }
+        .btn-nav:hover { background: var(--gold-dark); transform: translateY(-1px); }
+        .btn-nav::after { display: none !important; }
 
         /* ============ HERO ============ */
         .hero {
-            min-height: 100vh; position: relative; display: flex;
-            align-items: center; justify-content: center; text-align: center;
-            overflow: hidden;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #1A3650 0%, #0F1D2D 30%, #2D1810 60%, #1A3650 100%);
         }
-        .hero-bg {
-            position: absolute; inset: 0;
-            background: linear-gradient(rgba(15,26,31,0.55), rgba(15,26,31,0.65)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23C9A96E" width="1200" height="800"/><path fill="%23E8D5B7" d="M0 400 Q300 200 600 350 Q900 500 1200 300 L1200 800 L0 800Z"/><circle cx="150" cy="150" r="80" fill="%23DFC89D" opacity="0.4"/><path fill="%23B8935A" d="M200 650 Q400 550 600 620 Q800 690 1000 580 L1000 800 L200 800Z"/></svg>') center/cover;
+        .hero-particles {
+            position: absolute; inset: 0; pointer-events: none;
         }
-        .hero-content { position: relative; z-index: 1; max-width: 700px; padding: 40px 20px; }
+        .hero-particle {
+            position: absolute; width: 2px; height: 2px; background: var(--gold);
+            border-radius: 50%; animation: particleFloat 8s infinite;
+            opacity: 0;
+        }
+        @keyframes particleFloat {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) scale(1); }
+        }
+        .hero-content {
+            text-align: center; z-index: 2; padding: 40px; max-width: 800px;
+            position: relative;
+        }
+        .hero-ornament {
+            display: block; width: 80px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto 40px;
+        }
         .hero-badge {
-            display: inline-block; background: rgba(201,169,110,0.2);
-            border: 1px solid var(--gold); color: var(--gold-light);
-            padding: 8px 20px; border-radius: 30px; font-size: 13px;
-            font-weight: 600; letter-spacing: 2px; margin-bottom: 24px;
-            text-transform: uppercase;
+            display: inline-block; border: 1px solid rgba(212,175,55,0.4);
+            padding: 10px 24px; border-radius: 30px; font-size: 10px;
+            font-weight: 600; letter-spacing: 4px; color: var(--gold-light);
+            text-transform: uppercase; margin-bottom: 36px;
         }
         .hero h1 {
-            font-family: var(--font-heading); font-size: clamp(36px, 6vw, 64px);
-            font-weight: 900; color: white; line-height: 1.15; margin-bottom: 20px;
+            font-family: var(--font-display); font-size: clamp(40px, 7vw, 72px);
+            font-weight: 600; color: var(--white); line-height: 1.1; margin-bottom: 20px;
         }
-        .hero h1 span { color: var(--gold); }
+        .hero h1 span { color: var(--gold); font-style: italic; }
         .hero p {
-            font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 32px;
-            max-width: 500px; margin-left: auto; margin-right: auto;
+            font-size: 17px; color: rgba(255,255,255,0.6); margin-bottom: 44px;
+            font-weight: 300; letter-spacing: 1px; max-width: 500px; margin-left: auto; margin-right: auto;
         }
-        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .btn-primary, .btn-outline {
-            padding: 16px 32px; border-radius: 8px; font-size: 15px;
-            font-weight: 600; text-decoration: none; transition: all 0.3s;
+            padding: 16px 36px; font-size: 12px; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+            transition: all 0.5s; position: relative; overflow: hidden;
         }
         .btn-primary {
-            background: var(--terracotta); color: white;
-            box-shadow: 0 8px 28px rgba(196,115,79,0.35);
+            background: var(--gold); color: var(--midnight);
         }
-        .btn-primary:hover { background: #a55f3d; transform: translateY(-2px); }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212,175,55,0.3); }
         .btn-outline {
-            border: 2px solid white; color: white;
+            border: 1px solid rgba(255,255,255,0.3); color: var(--white);
         }
-        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+        .hero-scroll {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            animation: bounce 2s infinite; cursor: pointer;
+        }
+        .hero-scroll span { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; }
+        .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+        @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
         /* ============ SECTION STYLES ============ */
-        .section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-label {
-            font-family: var(--font-body); font-size: 12px; font-weight: 700;
-            letter-spacing: 3px; color: var(--terracotta); text-transform: uppercase;
-            margin-bottom: 12px;
+        .section { padding: 100px 40px; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-overline {
+            font-size: 10px; font-weight: 600; letter-spacing: 4px; color: var(--terracotta);
+            text-transform: uppercase; margin-bottom: 16px;
         }
         .section-title {
-            font-family: var(--font-heading); font-size: clamp(28px, 4vw, 42px);
-            font-weight: 800; color: var(--deep-blue); margin-bottom: 16px;
+            font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600; color: var(--midnight); margin-bottom: 20px; line-height: 1.2;
         }
-        .section-subtitle { color: var(--text-light); font-size: 16px; max-width: 500px; margin: 0 auto; }
+        .section-line { width: 60px; height: 2px; background: var(--gold); margin: 0 auto 20px; }
+        .section-subtitle { color: var(--text-light); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.7; }
 
-        /* ============ DESTINATION CARDS ============ */
+        /* ============ DESTINATIONS GRID ============ */
         .destinations-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
         }
-        .destination-card {
-            background: white; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow); transition: all 0.4s;
+        .dest-card {
+            position: relative; height: 550px; overflow: hidden; cursor: pointer;
+            border-radius: 2px; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .destination-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,0.18); }
-        .card-image {
-            height: 220px; position: relative; overflow: hidden;
-            background-size: cover; background-position: center;
-            transition: transform 0.6s;
+        .dest-card:first-child { border-radius: var(--radius) 2px 2px var(--radius); }
+        .dest-card:last-child { border-radius: 2px var(--radius) var(--radius) 2px; }
+        .dest-card:hover { transform: scale(1.02); z-index: 2; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+        .dest-bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            transition: transform 0.8s;
         }
-        .destination-card:hover .card-image { transform: scale(1.05); }
-        .card-image.agafay { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23C9A96E" width="400" height="220"/><path fill="%23E8D5B7" d="M0 100 Q100 50 200 120 Q300 190 400 90 L400 220 L0 220Z"/><path fill="%23DFC89D" d="M0 150 Q150 100 250 160 Q350 220 400 140 L400 220 L0 220Z"/><circle cx="80" cy="40" r="25" fill="%23FFF" opacity="0.3"/></svg>'); }
-        .card-image.marrakech { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23C4734F" width="400" height="220"/><rect fill="%23A55F3D" x="50" y="30" width="80" height="120" rx="4"/><rect fill="%238B4A30" x="150" y="50" width="60" height="100" rx="4"/><rect fill="%23C4734F" x="250" y="20" width="90" height="130" rx="4"/><path fill="%23DFC89D" d="M0 170 L400 170 L400 220 L0 220Z"/></svg>'); }
-        .card-image.imlil { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%231B3A4B" width="400" height="220"/><path fill="%232D5A6B" d="M0 80 L100 20 L200 70 L300 30 L400 80 L400 220 L0 220Z"/><path fill="%23FFFFFF" d="M150 30 L200 5 L250 30 L200 45Z" opacity="0.8"/></svg>'); }
-        .card-image.merzouga { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23E8D5B7" width="400" height="220"/><path fill="%23DFC89D" d="M0 60 Q80 20 150 70 Q220 120 300 50 Q350 20 400 60 L400 220 L0 220Z"/><path fill="%23C9A96E" d="M0 120 Q100 80 200 130 Q300 180 400 110 L400 220 L0 220Z"/></svg>'); }
-        .card-badge {
-            position: absolute; top: 16px; right: 16px;
-            background: var(--terracotta); color: white;
-            font-size: 11px; font-weight: 700; padding: 6px 14px;
-            border-radius: 6px; text-transform: uppercase; letter-spacing: 1px;
+        .dest-card:hover .dest-bg { transform: scale(1.1); }
+        .dest-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(15,29,45,0.9) 0%, rgba(15,29,45,0.3) 40%, rgba(15,29,45,0.05) 100%);
+            transition: background 0.6s;
         }
-        .card-content { padding: 24px; }
-        .card-content h3 {
-            font-family: var(--font-heading); font-size: 22px;
-            color: var(--deep-blue); margin-bottom: 8px;
+        .dest-card:hover .dest-bg::after { background: linear-gradient(to top, rgba(15,29,45,0.95) 0%, rgba(15,29,45,0.5) 40%, rgba(15,29,45,0.1) 100%); }
+        .dest-content {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 30px;
+            z-index: 2;
         }
-        .card-content .location {
-            color: var(--terracotta); font-size: 13px; font-weight: 600;
-            margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+        .dest-number {
+            font-family: var(--font-display); font-size: 60px; font-weight: 700;
+            color: rgba(212,175,55,0.3); line-height: 1; margin-bottom: 4px;
+            transition: all 0.6s;
         }
-        .card-content p { color: var(--text-light); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
-        .card-features { display: flex; gap: 16px; margin-bottom: 20px; }
-        .feature-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); }
-        .card-cta {
-            display: inline-block; padding: 12px 24px;
-            background: var(--deep-blue); color: white;
-            text-decoration: none; border-radius: 8px; font-weight: 600;
-            font-size: 14px; transition: all 0.3s;
+        .dest-card:hover .dest-number { color: rgba(212,175,55,0.6); }
+        .dest-content h3 {
+            font-family: var(--font-display); font-size: 26px; color: var(--white);
+            margin-bottom: 8px; letter-spacing: 1px;
         }
-        .card-cta:hover { background: var(--terracotta); }
+        .dest-content .location {
+            font-size: 11px; color: var(--gold); text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 12px;
+        }
+        .dest-content p {
+            font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px;
+            line-height: 1.6; opacity: 0; transform: translateY(10px);
+            transition: all 0.5s 0.1s;
+        }
+        .dest-card:hover .dest-content p { opacity: 1; transform: translateY(0); }
+        .dest-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--gold); text-decoration: none; font-size: 11px;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            opacity: 0; transform: translateY(10px); transition: all 0.5s 0.2s;
+        }
+        .dest-card:hover .dest-link { opacity: 1; transform: translateY(0); }
+        .dest-link .arrow { transition: transform 0.3s; }
+        .dest-link:hover .arrow { transform: translateX(6px); }
 
-        /* ============ ACTIVITIES SECTION ============ */
-        .activities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .activity-card {
-            background: white; border-radius: var(--radius); padding: 28px;
-            box-shadow: var(--shadow); text-align: center; transition: all 0.3s;
+        /* ============ EXPERIENCES ============ */
+        .experiences-section { background: var(--white); }
+        .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .exp-card {
+            text-align: center; padding: 50px 30px; border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius); transition: all 0.5s; position: relative;
+            overflow: hidden; background: var(--white);
         }
-        .activity-card:hover { transform: translateY(-4px); }
-        .activity-icon { font-size: 44px; margin-bottom: 16px; }
-        .activity-card h3 { font-family: var(--font-heading); font-size: 18px; color: var(--deep-blue); margin-bottom: 8px; }
-        .activity-card p { color: var(--text-light); font-size: 13px; margin-bottom: 16px; }
-        .activity-price { font-size: 24px; font-weight: 700; color: var(--terracotta); margin-bottom: 16px; }
-        .activity-price span { font-size: 13px; color: var(--text-light); font-weight: 400; }
+        .exp-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--terracotta));
+            transform: scaleX(0); transition: transform 0.6s;
+        }
+        .exp-card:hover::before { transform: scaleX(1); }
+        .exp-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px rgba(0,0,0,0.08); }
+        .exp-icon { font-size: 48px; margin-bottom: 24px; display: block; }
+        .exp-card h3 { font-family: var(--font-display); font-size: 22px; color: var(--midnight); margin-bottom: 10px; }
+        .exp-card p { color: var(--text-light); font-size: 13px; margin-bottom: 16px; line-height: 1.7; }
+        .exp-price { font-size: 28px; font-weight: 700; color: var(--terracotta); font-family: var(--font-display); }
+        .exp-price span { font-size: 12px; color: var(--text-light); font-weight: 400; }
 
         /* ============ FEATURES BAR ============ */
         .features-bar {
-            background: var(--deep-blue); padding: 30px 0; color: white;
+            background: var(--midnight); padding: 50px 0;
         }
         .features-inner {
-            max-width: 1200px; margin: 0 auto; padding: 0 24px;
-            display: flex; justify-content: space-around; gap: 20px;
-            flex-wrap: wrap;
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
         }
-        .feat-item { display: flex; align-items: center; gap: 12px; }
-        .feat-icon { font-size: 28px; }
-        .feat-text h4 { font-size: 14px; font-weight: 600; }
-        .feat-text p { font-size: 12px; opacity: 0.7; }
+        .feat-item { text-align: center; color: var(--white); }
+        .feat-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+        .feat-item h4 { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .feat-item p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+        /* ============ TESTIMONIAL ============ */
+        .testimonial-section { background: var(--sand); }
+        .testimonial {
+            max-width: 700px; margin: 0 auto; text-align: center;
+        }
+        .testimonial-quote {
+            font-family: var(--font-display); font-size: 28px; font-style: italic;
+            color: var(--midnight); line-height: 1.5; margin-bottom: 30px;
+        }
+        .testimonial-author { font-weight: 600; color: var(--terracotta); }
+        .testimonial-stars { color: var(--gold); font-size: 18px; margin-bottom: 10px; }
+
+        /* ============ CTA ============ */
+        .cta-section {
+            text-align: center; padding: 100px 40px;
+            background: linear-gradient(135deg, var(--midnight), #1A2A3A);
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(212,175,55,0.06) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        @keyframes rotate { to { transform: rotate(360deg); } }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-title {
+            font-family: var(--font-display); font-size: clamp(30px, 5vw, 44px);
+            color: var(--white); margin-bottom: 16px;
+        }
+        .cta-text { color: rgba(255,255,255,0.6); margin-bottom: 36px; font-size: 16px; }
+        .btn-cta {
+            display: inline-block; padding: 18px 44px; background: var(--gold);
+            color: var(--midnight); text-decoration: none; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase; font-size: 11px;
+            transition: all 0.5s; border-radius: 4px;
+        }
+        .btn-cta:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 24px 48px rgba(212,175,55,0.3); }
 
         /* ============ FOOTER ============ */
         .footer {
-            background: var(--dark); color: white; padding: 60px 24px 30px;
+            background: #0A1219; color: var(--white); padding: 70px 40px 30px;
         }
         .footer-inner {
-            max-width: 1200px; margin: 0 auto;
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+            max-width: 1300px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px;
+            margin-bottom: 50px;
         }
         .footer-about h3 {
-            font-family: var(--font-heading); font-size: 22px; margin-bottom: 16px;
+            font-family: var(--font-display); font-size: 24px; margin-bottom: 16px;
+            color: var(--gold);
         }
-        .footer-about p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.7; }
-        .footer-col h4 { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .footer-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; margin-bottom: 10px; transition: color 0.3s; }
+        .footer-about p { color: rgba(255,255,255,0.45); font-size: 13px; line-height: 1.8; }
+        .footer-col h4 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 13px; margin-bottom: 12px; transition: color 0.3s; }
         .footer-col a:hover { color: var(--gold); }
         .footer-bottom {
-            max-width: 1200px; margin: 40px auto 0; padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: center; font-size: 12px; color: rgba(255,255,255,0.4);
+            border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 11px; color: rgba(255,255,255,0.3);
+            max-width: 1300px; margin: 0 auto;
         }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: rgba(255,255,255,0.3); text-decoration: none; font-size: 18px; transition: color 0.3s; }
+        .footer-social a:hover { color: var(--gold); }
 
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-toggle { display: block; }
+        @media (max-width: 1024px) {
+            .destinations-grid { grid-template-columns: repeat(2, 1fr); }
+            .exp-grid { grid-template-columns: 1fr 1fr; }
+            .features-inner { grid-template-columns: 1fr 1fr; }
             .footer-inner { grid-template-columns: 1fr 1fr; }
-            .hero h1 { font-size: 32px; }
+        }
+        @media (max-width: 640px) {
             .destinations-grid { grid-template-columns: 1fr; }
+            .dest-card { height: 400px; }
+            .exp-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .section { padding: 60px 20px; }
+            .hero h1 { font-size: 32px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
 
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <span class="preloader-icon">🏜️</span>
+            <div class="preloader-line"></div>
+            <div class="preloader-text">Morocco Awaits</div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor" id="cursor"></div>
+
     <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
-            <div class="nav-links" id="navLinks">
+            <a href="index.html" class="nav-logo">
+                <span class="nav-logo-icon">✧</span>
+                M. D. A.
+            </a>
+            <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="#destinations">Destinations</a>
-                <a href="#activities">Activities</a>
+                <a href="#experiences">Experiences</a>
                 <a href="hotels.html">Hotels</a>
                 <a href="contact.html">Contact</a>
-                <a href="booking.html" class="btn-book">Book Now</a>
+                <a href="booking.html" class="btn-nav">Book Now</a>
             </div>
-            <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="hero-bg"></div>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content">
+            <div class="hero-ornament"></div>
             <div class="hero-badge">✦ Discover Morocco ✦</div>
-            <h1>Journey Through <span>Golden Sands</span> & Ancient Cities</h1>
-            <p>Experience the magic of Morocco — from the rolling dunes of Merzouga to the majestic Atlas peaks at Imlil, and the timeless beauty of Marrakech</p>
+            <h1>Journey Into <span>Golden Sands</span> & Timeless Cities</h1>
+            <p>Extraordinary experiences crafted with care — from the rolling dunes of Merzouga to the Atlas peaks and the soul of Marrakech</p>
             <div class="hero-buttons">
                 <a href="#destinations" class="btn-primary">Explore Destinations</a>
-                <a href="booking.html" class="btn-outline">Book Your Journey</a>
+                <a href="booking.html" class="btn-outline">Curate Your Journey</a>
             </div>
+        </div>
+        <div class="hero-scroll" onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})">
+            <span>Scroll</span>
+            <div class="hero-scroll-line"></div>
         </div>
     </section>
 
-    <!-- DESTINATIONS SECTION -->
+    <!-- DESTINATIONS -->
     <section class="section" id="destinations">
         <div class="section-header">
-            <div class="section-label">Where to Go</div>
-            <h2 class="section-title">Our Signature Destinations</h2>
-            <p class="section-subtitle">Four extraordinary places that capture the soul of Morocco — each offering a unique journey into beauty, culture, and adventure</p>
+            <div class="section-overline">Where Beauty Lives</div>
+            <h2 class="section-title">Signature Destinations</h2>
+            <div class="section-line"></div>
+            <p class="section-subtitle">Four extraordinary places — each one a chapter in the story of Morocco</p>
         </div>
         <div class="destinations-grid">
-            <!-- AGAFAY -->
-            <div class="destination-card">
-                <div class="card-image agafay">
-                    <div class="card-badge">Most Popular</div>
-                </div>
-                <div class="card-content">
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23C9A96E%22 width=%22400%22 height=%22550%22/><path fill=%22%23DFC89D%22 d=%22M0 300 Q100 200 200 320 Q300 440 400 250 L400 550 L0 550Z%22/><path fill=%22%23B8935A%22 d=%22M0 400 Q150 320 250 430 Q350 540 400 380 L400 550 L0 550Z%22/><circle cx=%2280%22 cy=%22120%22 r=%2230%22 fill=%22%23E8D5B7%22 opacity=%220.15%22/></svg>');"></div>
+                <div class="dest-content">
+                    <div class="dest-number">01</div>
                     <h3>Agafay Desert</h3>
-                    <div class="location">📍 40 min from Marrakech</div>
-                    <p>A stunning rocky desert landscape offering all the magic of the Sahara just a short drive from Marrakech. Quad biking, camel rides, and luxury camp dinners under the stars.</p>
-                    <div class="card-features">
-                        <span class="feature-item">🏍️ Quad Biking</span>
-                        <span class="feature-item">🐪 Camel Rides</span>
-                        <span class="feature-item">🌅 Sunset Dinner</span>
-                    </div>
-                    <a href="agafay.html" class="card-cta">Explore Agafay →</a>
+                    <div class="location">40 min from Marrakech</div>
+                    <p>A lunar landscape of rocky dunes — quad bike, camel ride & dine under endless stars</p>
+                    <a href="agafay.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-
-            <!-- MARRAKECH -->
-            <div class="destination-card">
-                <div class="card-image marrakech">
-                    <div class="card-badge">Cultural Hub</div>
-                </div>
-                <div class="card-content">
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23C4734F%22 width=%22400%22 height=%22550%22/><rect fill=%22%23A55F3D%22 x=%2240%22 y=%2280%22 width=%22100%22 height=%22200%22 rx=%224%22/><rect fill=%22%238B4A30%22 x=%22180%22 y=%2260%22 width=%2280%22 height=%22220%22 rx=%224%22/><rect fill=%22%23C4734F%22 x=%22310%22 y=%2290%22 width=%2290%22 height=%22180%22 rx=%224%22/><path fill=%22%23DFC89D%22 d=%22M0 380 L400 380 L400 550 L0 550Z%22/></svg>');"></div>
+                <div class="dest-content">
+                    <div class="dest-number">02</div>
                     <h3>Marrakech</h3>
-                    <div class="location">📍 The Red City</div>
-                    <p>The beating heart of Morocco — wander through souks, marvel at ancient palaces, and soak in the vibrant energy of Jemaa el-Fnaa. Luxury riads and world-class dining await.</p>
-                    <div class="card-features">
-                        <span class="feature-item">🏛️ Medina Tour</span>
-                        <span class="feature-item">🕌 Palaces</span>
-                        <span class="feature-item">🍽️ Food Tours</span>
-                    </div>
-                    <a href="marrakech.html" class="card-cta">Explore Marrakech →</a>
+                    <div class="location">The Red City</div>
+                    <p>Palaces, souks & the rhythms of Jemaa el-Fnaa — the heart of Morocco</p>
+                    <a href="marrakech.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-
-            <!-- IMLIL -->
-            <div class="destination-card">
-                <div class="card-image imlil">
-                    <div class="card-badge">Mountain Escape</div>
-                </div>
-                <div class="card-content">
-                    <h3>Imlil & Atlas Mountains</h3>
-                    <div class="location">📍 High Atlas, 90 min from Marrakech</div>
-                    <p>Nestled in the High Atlas Mountains, Imlil offers breathtaking hiking trails, Berber village visits, and panoramic views of North Africa's highest peak — Mount Toubkal.</p>
-                    <div class="card-features">
-                        <span class="feature-item">🥾 Hiking</span>
-                        <span class="feature-item">🏘️ Berber Villages</span>
-                        <span class="feature-item">⛰️ Mountain Views</span>
-                    </div>
-                    <a href="imlil.html" class="card-cta">Explore Imlil →</a>
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%231B3A4B%22 width=%22400%22 height=%22550%22/><path fill=%22%232D5A6B%22 d=%22M0 120 L100 30 L200 100 L300 40 L400 120 L400 550 L0 550Z%22/><path fill=%22%23FFFFFF%22 d=%22M180 35 L200 10 L220 35 L200 50Z%22 opacity=%220.7%22/><path fill=%22%233D6A7B%22 d=%22M0 200 L400 260 L400 550 L0 550Z%22 opacity=%220.5%22/></svg>');"></div>
+                <div class="dest-content">
+                    <div class="dest-number">03</div>
+                    <h3>Imlil & Atlas</h3>
+                    <div class="location">High Atlas Mountains</div>
+                    <p>Hike, breathe & discover Berber life beneath North Africa's highest peaks</p>
+                    <a href="imlil.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-
-            <!-- MERZOUGA -->
-            <div class="destination-card">
-                <div class="card-image merzouga">
-                    <div class="card-badge">Sahara Experience</div>
-                </div>
-                <div class="card-content">
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23E8D5B7%22 width=%22400%22 height=%22550%22/><path fill=%22%23DFC89D%22 d=%22M0 120 Q80 40 180 130 Q280 220 400 90 L400 550 L0 550Z%22/><path fill=%22%23C9A96E%22 d=%22M0 220 Q120 150 220 250 Q320 350 400 200 L400 550 L0 550Z%22/><path fill=%22%23B8935A%22 d=%22M0 350 Q200 280 400 400 L400 550 L0 550Z%22/></svg>');"></div>
+                <div class="dest-content">
+                    <div class="dest-number">04</div>
                     <h3>Merzouga Desert</h3>
-                    <div class="location">📍 Sahara Desert, Erg Chebbi</div>
-                    <p>Witness the towering golden dunes of Erg Chebbi — ride camels across the Sahara, sleep in luxury desert camps, and wake up to one of the world's most spectacular sunrises.</p>
-                    <div class="card-features">
-                        <span class="feature-item">🐪 Camel Trekking</span>
-                        <span class="feature-item">🏕️ Desert Camp</span>
-                        <span class="feature-item">🌌 Star Gazing</span>
-                    </div>
-                    <a href="merzouga.html" class="card-cta">Explore Merzouga →</a>
+                    <div class="location">Sahara — Erg Chebbi</div>
+                    <p>Towering golden dunes, camel treks & nights beneath a blanket of stars</p>
+                    <a href="merzouga.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ACTIVITIES SECTION -->
-    <section class="section" id="activities" style="background: white;">
-        <div class="section-header">
-            <div class="section-label">Things to Do</div>
-            <h2 class="section-title">Unforgettable Experiences</h2>
-            <p class="section-subtitle">Adventure, culture, and relaxation — handpicked activities for every traveler</p>
-        </div>
-        <div class="activities-grid">
-            <div class="activity-card">
-                <div class="activity-icon">🏍️</div>
-                <h3>Quad Biking in Agafay</h3>
-                <p>1-hour guided quad bike adventure through desert trails and Berber villages</p>
-                <div class="activity-price">€50 <span>/ person</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
+    <!-- EXPERIENCES -->
+    <section class="experiences-section" id="experiences">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-overline">Curated Adventures</div>
+                <h2 class="section-title">Signature Experiences</h2>
+                <div class="section-line"></div>
             </div>
-            <div class="activity-card">
-                <div class="activity-icon">🐪</div>
-                <h3>Camel Ride at Sunset</h3>
-                <p>30-minute camel trek across golden dunes with breathtaking sunset views</p>
-                <div class="activity-price">€35 <span>/ person</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
-            </div>
-            <div class="activity-card">
-                <div class="activity-icon">🌅</div>
-                <h3>Desert Dinner & Show</h3>
-                <p>Traditional Moroccan dinner under the stars with live music & fire show</p>
-                <div class="activity-price">€45 <span>/ person</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
-            </div>
-            <div class="activity-card">
-                <div class="activity-icon">🏕️</div>
-                <h3>Luxury Desert Camp</h3>
-                <p>Overnight in a luxury camp in Merzouga with private tent & stargazing</p>
-                <div class="activity-price">€120 <span>/ night</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
-            </div>
-            <div class="activity-card">
-                <div class="activity-icon">🥾</div>
-                <h3>Atlas Mountain Trek</h3>
-                <p>Full-day guided hike through Imlil with Berber lunch & panoramic views</p>
-                <div class="activity-price">€55 <span>/ person</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
-            </div>
-            <div class="activity-card">
-                <div class="activity-icon">🏛️</div>
-                <h3>Marrakech Medina Tour</h3>
-                <p>Half-day walking tour through souks, palaces, and hidden gems</p>
-                <div class="activity-price">€30 <span>/ person</span></div>
-                <a href="booking.html" class="card-cta">Book Now</a>
+            <div class="exp-grid">
+                <div class="exp-card">
+                    <span class="exp-icon">🏍️</span>
+                    <h3>Quad Biking</h3>
+                    <p>1-hour guided adventure through Agafay's dramatic desert trails</p>
+                    <div class="exp-price">€50 <span>/ person</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-icon">🐪</span>
+                    <h3>Camel Trek</h3>
+                    <p>Sunset journey across golden dunes with panoramic views</p>
+                    <div class="exp-price">€35 <span>/ person</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-icon">🌅</span>
+                    <h3>Desert Dinner</h3>
+                    <p>Traditional feast under stars with live music & fire show</p>
+                    <div class="exp-price">€72 <span>/ person</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-icon">🏕️</span>
+                    <h3>Luxury Camp</h3>
+                    <p>Private tent in Merzouga with king bed & Sahara sunrise</p>
+                    <div class="exp-price">€200 <span>/ night</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-icon">🥾</span>
+                    <h3>Atlas Trek</h3>
+                    <p>Full-day mountain hike with Berber lunch & Toubkal views</p>
+                    <div class="exp-price">€55 <span>/ person</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-icon">🏛️</span>
+                    <h3>Medina Tour</h3>
+                    <p>Half-day walk through Marrakech's hidden palaces & souks</p>
+                    <div class="exp-price">€30 <span>/ person</span></div>
+                </div>
             </div>
         </div>
     </section>
@@ -402,63 +518,102 @@
     <!-- FEATURES BAR -->
     <div class="features-bar">
         <div class="features-inner">
-            <div class="feat-item"><span class="feat-icon">🛡️</span><div class="feat-text"><h4>Secure Booking</h4><p>100% safe payment</p></div></div>
-            <div class="feat-item"><span class="feat-icon">💯</span><div class="feat-text"><h4>Best Price</h4><p>Guaranteed lowest rates</p></div></div>
-            <div class="feat-item"><span class="feat-icon">📞</span><div class="feat-text"><h4>24/7 Support</h4><p>Always here to help</p></div></div>
-            <div class="feat-item"><span class="feat-icon">⭐</span><div class="feat-text"><h4>5-Star Reviews</h4><p>Rated by travelers</p></div></div>
+            <div class="feat-item"><span class="feat-icon">🛡️</span><h4>Secure Booking</h4><p>100% safe & encrypted</p></div>
+            <div class="feat-item"><span class="feat-icon">💯</span><h4>Best Price</h4><p>Lowest rate guaranteed</p></div>
+            <div class="feat-item"><span class="feat-icon">📞</span><h4>24/7 Concierge</h4><p>Always at your service</p></div>
+            <div class="feat-item"><span class="feat-icon">⭐</span><h4>5-Star Rated</h4><p>By travelers worldwide</p></div>
         </div>
     </div>
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial-section">
+        <div class="section">
+            <div class="testimonial">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-quote">"An experience that touched our souls. From the golden dunes of Merzouga to the warmth of Berber hospitality — every moment was pure magic. This is not just a trip; it is a return to what matters."</p>
+                <p class="testimonial-author">— The Andersons, United Kingdom</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Write Your Moroccan Story?</h2>
+            <p class="cta-text">Let us craft a journey as unique as you are</p>
+            <a href="booking.html" class="btn-cta">Begin Your Journey</a>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-about">
                 <h3>Morocco Desert Adventures</h3>
-                <p>Your trusted partner for authentic Moroccan experiences. We specialize in tours to Agafay, Marrakech, Imlil, and Merzouga — each crafted with care by local experts.</p>
+                <p>Curating extraordinary Moroccan experiences since 2010. Agafay, Marrakech, Imlil, Merzouga — every journey crafted with passion by local experts who know and love this land.</p>
             </div>
             <div class="footer-col">
                 <h4>Destinations</h4>
                 <a href="agafay.html">Agafay Desert</a>
                 <a href="marrakech.html">Marrakech</a>
-                <a href="imlil.html">Imlil</a>
+                <a href="imlil.html">Imlil & Atlas</a>
                 <a href="merzouga.html">Merzouga</a>
             </div>
             <div class="footer-col">
-                <h4>Bookings</h4>
+                <h4>Plan</h4>
+                <a href="booking.html">Book Now</a>
                 <a href="hotels.html">Hotels</a>
                 <a href="activities.html">Activities</a>
-                <a href="booking.html">Book Now</a>
+                <a href="faq.html">FAQ</a>
             </div>
             <div class="footer-col">
-                <h4>Contact</h4>
-                <a href="contact.html">Contact Us</a>
-                <a href="faq.html">FAQ</a>
-                <a href="privacy.html">Privacy Policy</a>
+                <h4>Connect</h4>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="faq.html">Help</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Morocco Desert Adventures. All rights reserved. Designed with passion for Moroccan tourism.</p>
+            <p>© 2026 Morocco Desert Adventures. Crafted with devotion.</p>
+            <div class="footer-social">
+                <a href="#">◆</a>
+                <a href="#">◇</a>
+                <a href="#">◆</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        function toggleMenu() {
-            const links = document.getElementById('navLinks');
-            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-            links.style.flexDirection = 'column';
-            links.style.position = 'absolute';
-            links.style.top = '70px';
-            links.style.left = '0';
-            links.style.width = '100%';
-            links.style.background = '#FBF7F0';
-            links.style.padding = '20px';
-            links.style.gap = '16px';
-            links.style.boxShadow = '0 8px 40px rgba(0,0,0,0.12)';
+        // PRELOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => { document.getElementById('preloader').classList.add('hidden'); }, 1500);
+        });
+
+        // PARTICLES
+        const particlesContainer = document.getElementById('heroParticles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'hero-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+            particlesContainer.appendChild(particle);
         }
 
+        // CURSOR
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .dest-card, .exp-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // NAVBAR SCROLL
         window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
         });
     </script>
 </body>
