@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking | Morocco Desert Adventures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
+            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
+            --text: #2C2416; --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
+            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+
+        .page-hero {
+            min-height: 40vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: linear-gradient(rgba(15,26,31,0.5), rgba(15,26,31,0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%231B3A4B" width="1200" height="400"/><rect fill="%232D5A6B" x="50" y="80" width="250" height="200" rx="4"/><rect fill="%233D6A7B" x="350" y="60" width="200" height="220" rx="4"/><rect fill="%232D5A6B" x="600" y="100" width="280" height="180" rx="4"/><rect fill="%233D6A7B" x="950" y="70" width="200" height="210" rx="4"/></svg>') center/cover;
+            margin-top: 70px;
+        }
+        .hero-content h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 900; color: white; }
+
+        .section { padding: 50px 24px; max-width: 1100px; margin: 0 auto; }
+        .hotels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; }
+        .hotel-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
+        .hotel-card:hover { transform: translateY(-6px); }
+        .hotel-image { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 60px; }
+        .hotel-image.agafay { background: linear-gradient(135deg, #C9A96E, #DFC89D); }
+        .hotel-image.marrakech { background: linear-gradient(135deg, #C4734F, #A55F3D); }
+        .hotel-image.imlil { background: linear-gradient(135deg, #1B3A4B, #2D5A6B); }
+        .hotel-image.merzouga { background: linear-gradient(135deg, #E8D5B7, #C9A96E); }
+        .hotel-content { padding: 24px; }
+        .hotel-content h3 { font-family: var(--font-heading); font-size: 20px; color: var(--deep-blue); margin-bottom: 6px; }
+        .hotel-location { color: var(--terracotta); font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+        .hotel-content p { color: var(--text-light); font-size: 13px; margin-bottom: 16px; }
+        .hotel-rating { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+        .hotel-price { font-size: 28px; font-weight: 700; color: var(--terracotta); margin-bottom: 16px; }
+        .hotel-price span { font-size: 13px; color: var(--text-light); font-weight: 400; }
+        .btn-hotel {
+            display: block; padding: 14px; background: var(--deep-blue); color: white;
+            text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700;
+            transition: all 0.3s;
+        }
+        .btn-hotel:hover { background: var(--terracotta); }
+
+        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="agafay.html">Agafay</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>🏨 Hotels & Riads</h1>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="hotels-grid">
+            <div class="hotel-card">
+                <div class="hotel-image agafay">🏕️</div>
+                <div class="hotel-content">
+                    <h3>Agafay Luxury Camp</h3>
+                    <div class="hotel-location">📍 Agafay Desert</div>
+                    <div class="hotel-rating">⭐⭐⭐⭐⭐ 4.8 / 5</div>
+                    <p>Sleep under the stars in a luxury desert camp with private tents, ensuite bathrooms, and panoramic desert views.</p>
+                    <div class="hotel-price">€180 <span>/ night</span></div>
+                    <a href="booking.html" class="btn-hotel">Reserve Now</a>
+                </div>
+            </div>
+
+            <div class="hotel-card">
+                <div class="hotel-image marrakech">🕌</div>
+                <div class="hotel-content">
+                    <h3>Riad El Fenn – Marrakech</h3>
+                    <div class="hotel-location">📍 Marrakech Medina</div>
+                    <div class="hotel-rating">⭐⭐⭐⭐⭐ 4.9 / 5</div>
+                    <p>A stunning luxury riad in the heart of the Medina with rooftop pool, spa, and world-class Moroccan cuisine.</p>
+                    <div class="hotel-price">€250 <span>/ night</span></div>
+                    <a href="booking.html" class="btn-hotel">Reserve Now</a>
+                </div>
+            </div>
+
+            <div class="hotel-card">
+                <div class="hotel-image imlil">⛰️</div>
+                <div class="hotel-content">
+                    <h3>Kasbah du Toubkal</h3>
+                    <div class="hotel-location">📍 Imlil, High Atlas</div>
+                    <div class="hotel-rating">⭐⭐⭐⭐⭐ 4.8 / 5</div>
+                    <p>Perched on a mountaintop, this restored kasbah offers breathtaking views of Mount Toubkal and authentic Berber hospitality.</p>
+                    <div class="hotel-price">€160 <span>/ night</span></div>
+                    <a href="booking.html" class="btn-hotel">Reserve Now</a>
+                </div>
+            </div>
+
+            <div class="hotel-card">
+                <div class="hotel-image merzouga">🏜️</div>
+                <div class="hotel-content">
+                    <h3>Merzouga Luxury Desert Camp</h3>
+                    <div class="hotel-location">📍 Erg Chebbi, Merzouga</div>
+                    <div class="hotel-rating">⭐⭐⭐⭐⭐ 4.9 / 5</div>
+                    <p>Wake up to Sahara sunrises in a premium desert camp with king-size beds, hot showers, and private dune views.</p>
+                    <div class="hotel-price">€200 <span>/ night</span></div>
+                    <a href="booking.html" class="btn-hotel">Reserve Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Morocco Desert Adventures. | <a href="index.html">Home</a> | <a href="contact.html">Contact</a> | <a href="booking.html">Book Now</a></p>
+    </footer>
+</body>
+</html>
